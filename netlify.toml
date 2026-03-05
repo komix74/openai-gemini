@@ -1,5 +1,17 @@
 [build]
-        publish = "public/"
+  publish = "public/"
 
 [functions]
-        node_bundler = "esbuild"
+  node_bundler = "esbuild"
+
+# 1. Исправляем ошибку сжатия для Nextcloud
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Encoding = "identity"
+
+# 2. Настраиваем маршрутизацию (чтобы работало /v1/models)
+[[redirects]]
+  from = "/v1/*"
+  to = "/.netlify/functions/v1/:splat"
+  status = 200
